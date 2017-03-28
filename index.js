@@ -1,28 +1,11 @@
-import { resolve } from 'path';
-import exampleRoute from './server/routes/example';
+import { routes } from './server/routes';
 
 export default function (kibana) {
   return new kibana.Plugin({
     require: ['elasticsearch'],
 
     uiExports: {
-      
-      app: {
-        title: 'Siren Solution',
-        description: 'A plugin to visualise logs geolocations',
-        main: 'plugins/siren_solution/app'
-      },
-      
-      
-      translations: [
-        resolve(__dirname, './translations/es.json')
-      ],
-      
-      
-      hacks: [
-        'plugins/siren_solution/hack'
-      ]
-      
+      visTypes: ['plugins/siren-solution/siren-solution']
     },
 
     config(Joi) {
@@ -31,12 +14,9 @@ export default function (kibana) {
       }).default();
     },
 
-    
     init(server, options) {
-      // Add server routes and initalize the plugin here
-      exampleRoute(server);
+      // Add server routes and initialize the plugin here
+      routes(server);
     }
-    
-
   });
 };

@@ -1,0 +1,15 @@
+<div ng-controller="SirenController">
+    <div class="form-group">
+        <label for="index-select">Index</label>
+        <select ng-model="vis.params.indexPattern" class="form-control" id="index-select">
+            <option ng-repeat="index in vis.params.indices" value="{{ index }}">{{ index }}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="geo-select">Geopoint Field</label>
+        <select ng-model="vis.params.geofieldName" class="form-control" ng-disabled="vis.params.disableGeofield" id="geo-select">
+            <option ng-repeat="field in vis.params.geofields" value="{{ field }}"> {{ field }}</option>
+        </select>
+    </div>
+</div>
