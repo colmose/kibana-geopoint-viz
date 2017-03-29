@@ -49,7 +49,7 @@ export function routes (server) {
     config: {
       validate: {
         params: {
-          index: Joi.string().regex(/^[a-zA-Z0-9-_.]+$/).required(),
+          index: Joi.string().regex(/^[a-zA-Z0-9-_.*]+$/).required(),
           geofield: Joi.string().regex(/^[a-zA-Z0-9-_.]+$/).required()
         }
       }
