@@ -8,9 +8,9 @@ import './siren-solution-controller'
 // register the provider with the visTypes registry
 require('ui/registry/vis_types').register(MapVisProvider)
 
-function MapVisProvider(Private) {
+function MapVisProvider (Private) {
   const TemplateVisType = Private(require('ui/template_vis_type/template_vis_type'))
-
+  const Schemas = Private(require('ui/vis/schemas'))
   return new TemplateVisType({
     name: 'Siren Solution',
     icon: 'fa-globe',
@@ -19,15 +19,12 @@ function MapVisProvider(Private) {
     template: template,
     params: {
       defaults: {
-        indices: [],
-        disableGeofield: true,
-        geofields: [],
         indexPattern: null,
         geofieldName: null,
         center: {
           lat: 53,
           lng: -107,
-          zoom: 3
+          zoom: 2
         },
         defaults: {
           tileLayer: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
@@ -41,6 +38,16 @@ function MapVisProvider(Private) {
         markers: {}
       },
       editor: editorTemplate
-    }
+    },
+    schemas: new Schemas([
+      {
+        group: 'buckets',
+        name: 'geofield',
+        title: 'Geofield',
+        min: 1,
+        max: 1,
+        aggFilter: 'geohash_grid'
+      }
+    ])
   })
 }

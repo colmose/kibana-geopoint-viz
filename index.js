@@ -1,4 +1,4 @@
-import { routes } from './server/routes';
+import { routes } from './server/routes'
 
 export default function (kibana) {
   return new kibana.Plugin({
@@ -8,15 +8,15 @@ export default function (kibana) {
       visTypes: ['plugins/siren-solution/siren-solution']
     },
 
-    config(Joi) {
+    config (Joi) {
       return Joi.object({
-        enabled: Joi.boolean().default(true),
-      }).default();
+        enabled: Joi.boolean().default(true)
+      }).default()
     },
 
-    init(server, options) {
+    init (server, options) {
       // Add server routes and initialize the plugin here
-      routes(server);
+      routes(server)
     }
-  });
+  })
 };

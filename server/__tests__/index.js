@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { indicesHandler } from './../routes'
 
 describe('Siren Solution API', () => {
-  describe('indicesHandler', ()=>{
+  describe('indicesHandler', () => {
     it('should remove .kibana from indices', (done) => {
       const responseFromES = {
         metadata: {
