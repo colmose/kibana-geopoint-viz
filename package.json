@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "angular-simple-logger": "^0.1.7",
+    "joi": "^10.3.1",
     "leaflet": "^0.7.7",
     "ui-leaflet": "^1.0.1"
   }
