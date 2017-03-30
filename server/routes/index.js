@@ -4,14 +4,14 @@ import Joi from 'joi'
 // Split the function to remove the index to its own function for unit testing.
 export function indicesHandler (response) {
   const indexKeys = Object.keys(response.metadata.indices)
-  const indices = []
   // remove ".kibana" from indices returned
   for (let i = 0; i < indexKeys.length; i++){
-    if(indexKeys[i] !== '.kibana'){
-      indices.push(indexKeys[i])
+    if(indexKeys[i] === '.kibana'){
+      indexKeys.splice(i, 1)
+      break
     }
   }
-  return indices
+  return indexKeys
 }
 
 export function routes (server) {
