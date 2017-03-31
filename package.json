@@ -4,7 +4,7 @@
   "description": "A plugin to visualise logs geolocations",
   "main": "index.js",
   "kibana": {
-    "version": "5.4.0"
+    "version": "5.2.2"
   },
   "scripts": {
     "lint": "eslint",
