@@ -1,3 +1,9 @@
-<div id="map-container" ng-controller="SirenController">
-    <leaflet id="map" markers="vis.params.markers" center="vis.params.center" defaults="vis.params.defaults"></leaflet>
+<div id="map-container" ng-controller="SirenController" width="dims.width" height="dims.height">
+    <leaflet
+            id="map"
+            markers="vis.params.markers"
+            center="vis.params.center"
+            defaults="vis.params.defaults"
+            ng-if="vis.params.markers"
+    ></leaflet>
 </div>

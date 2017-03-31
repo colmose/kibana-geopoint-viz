@@ -35,7 +35,8 @@ function MapVisProvider (Private) {
             opacity: 1
           }
         },
-        markers: {}
+        markers: {},
+        displayMap: false
       },
       editor: editorTemplate
     },
