@@ -11,37 +11,15 @@ const icon = require('leaflet/dist/images/marker-icon.png')
 const iconShadow = require('leaflet/dist/images/marker-shadow.png')
 uiModules
   .get('app/siren-solution', ['nemLogging', 'ui-leaflet'])
-  .controller('SirenController', function ($scope,$rootScope, $http, $element, createNotifier, leafletData) {
+  .controller('SirenController', function ($scope,$rootScope, $http, $element, createNotifier) {
     // Initialize notifier
     const notify = createNotifier({
       location: 'Siren Solution'
     })
-
+    // Set up initial dimensions
     $scope.dims = {
-      height: "400px",
-      width: "600px"
-    }
-
-    function toggleMap (){
-      $scope.vis.params.displayMap = !$scope.vis.params.displayMap
-    }
-
-    function updateDimensions () {
-      $scope.dims.height = $element.parent().height()
-      $scope.dims.width = $element.parent().width()
-
-      console.log('new height: ', $element.parent().height())
-      console.log('new width: ', $element.parent().width())
-      let container = $element[0]
-
-      let map = leafletData.getMap('map')
-      map.invalidateSize({
-        debounceMoveend: true
-      })
-     console.log(map)
-      console.log(container)
-      $scope.$apply()
-     
+      height: 400,
+      width: 600
     }
 
     $scope.setMarkers = function (hits) {
@@ -59,6 +37,7 @@ uiModules
           popupAnchor: [-3, -76]
         }
       }
+
       // Set response to marker objects for rendering on leaflet map
       for (let i = 0; i < hits.length; i++) {
         markers[`m${i}`] = Object.assign({}, {
@@ -71,14 +50,7 @@ request: ${hits[i]._source['request']}`
           defaultMarkerOptions)
       }
       $scope.vis.params.markers = markers
-      toggleMap()
-      console.log($element)
-      // updateDimensions()
     }
-
-    $rootScope.$on('change:vis', function(){
-      updateDimensions()
-    })
 
     $scope.$watch('esResponse', response => {
       if (response) {
@@ -96,4 +68,38 @@ request: ${hits[i]._source['request']}`
         }
       }
     })
+  })
+  .directive('sirenMap', function($timeout, leafletData){
+    return {
+      restrict: 'E',
+      scope: {
+        dims: '=',
+        params: '='
+      },
+      template: `<leaflet 
+                        id="map" 
+                        markers="params.markers" 
+                        center="params.center" 
+                        defaults="params.defaults" 
+                        ng-if="params.markers">
+                 </leaflet>`,
+      link: function(scope, element, attrs){
+        // Leaflet's map.invalidateSize function rerenders the map
+        // in this case based on the container's new size
+        function updateDimensions () {
+            leafletData.getMap('map').then(function(map){
+              map.invalidateSize({
+                debounceMoveend: true
+              })
+            })
+        }
+
+        scope.$root.$on('change:vis', updateDimensions)
+
+        scope.$watch('markers', function(oldValue, newValue){
+          if(!newValue || newValue.length === 0) return
+          updateDimensions()
+        })
+      }
+    }
   })

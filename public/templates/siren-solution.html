@@ -1,9 +1,3 @@
-<div id="map-container" ng-controller="SirenController" width="dims.width" height="dims.height">
-    <leaflet
-            id="map"
-            markers="vis.params.markers"
-            center="vis.params.center"
-            defaults="vis.params.defaults"
-            ng-if="vis.params.markers"
-    ></leaflet>
+<div id="map-container" ng-controller="SirenController">
+    <siren-map dims="dims" params="vis.params"></siren-map>
 </div>
