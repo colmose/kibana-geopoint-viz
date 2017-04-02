@@ -87,19 +87,19 @@ request: ${hits[i]._source['request']}`
         // Leaflet's map.invalidateSize function rerenders the map
         // in this case based on the container's new size
         function updateDimensions () {
+          $timeout(function(){
             leafletData.getMap('map').then(function(map){
               map.invalidateSize({
                 debounceMoveend: true
               })
             })
+          })
         }
-
+        // Rerender the map on visualization change
         scope.$root.$on('change:vis', updateDimensions)
 
-        scope.$watch('markers', function(oldValue, newValue){
-          if(!newValue || newValue.length === 0) return
-          updateDimensions()
-        })
+        // Initial render to fill the parent div
+        updateDimensions()
       }
     }
   })
