@@ -70,6 +70,8 @@ request: ${hits[i]._source['request']}`
     })
   })
   .directive('sirenMap', function($timeout, leafletData){
+    let uniqueId = 1
+
     return {
       restrict: 'E',
       scope: {
@@ -77,18 +79,19 @@ request: ${hits[i]._source['request']}`
         params: '='
       },
       template: `<leaflet 
-                        id="map" 
+                        id="{{uniqueId}}" 
                         markers="params.markers" 
                         center="params.center" 
                         defaults="params.defaults" 
                         ng-if="params.markers">
                  </leaflet>`,
       link: function(scope, element, attrs){
+        scope.uniqueId = `map${uniqueId++}`
         // Leaflet's map.invalidateSize function rerenders the map
         // in this case based on the container's new size
         function updateDimensions () {
           $timeout(function(){
-            leafletData.getMap('map').then(function(map){
+            leafletData.getMap(scope.uniqueId).then(function(map){
               map.invalidateSize({
                 debounceMoveend: true
               })
