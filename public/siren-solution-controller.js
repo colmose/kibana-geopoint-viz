@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css'
 import 'leaflet'
 import 'angular-simple-logger/dist/index.light'
 import 'ui-leaflet'
+import chrome from 'ui/chrome'
 
 // Need to require icons directly as webpack breaks paths on load
 const icon = require('leaflet/dist/images/marker-icon.png')
@@ -62,7 +63,7 @@ request: ${hits[i]._source['request']}`
           $scope.vis.params.geofieldName = $scope.vis.aggs.bySchemaName['geofield'][0].params.field.displayName
 
           // Get logs from ES on selection of geofield and index
-          $http.get(`../api/siren-solution/logs/${$scope.vis.params.indexPattern}/${$scope.vis.params.geofieldName}`)
+          $http.get(chrome.addBasePath(`/api/siren-solution/logs/${$scope.vis.params.indexPattern}/${$scope.vis.params.geofieldName}`))
             .then(response => $scope.setMarkers(response.data))
             .catch(notify.error)
         }
